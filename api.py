@@ -6,7 +6,6 @@ class API(object):
 
     def __init__(self, gamma = 0.85, Q = None):
 
-
         # initialize model parameters
         self.gamma = gamma
 
@@ -14,17 +13,17 @@ class API(object):
         self.Q = Q
 
         # initialize state vector and background error
-        self.x = pd.Series(0., index=('sm',))
-        self.P = pd.Series(0., index=('sm',))
+        self.x = 0
+        self.P = 0
 
     def step(self, f):
 
         # model prediction
-        self.x['sm'] = self.x['sm'] * self.gamma + f['precip']
+        self.x = self.x * self.gamma + f
 
         # if forcing error is provided: error propagation (ASSUMES ADDITIVE ERROR!!)
         if self.Q is not None:
-            self.P['sm'] = self.gamma**2 * self.P['sm'] + self.Q['precip']
+            self.P = self.gamma**2 * self.P + self.Q
 
             return self.x, self.P
         else:
