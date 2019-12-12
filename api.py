@@ -16,10 +16,10 @@ class API(object):
         self.x = 0
         self.P = 0
 
-    def step(self, f):
+    def step(self, f, err=0):
 
-        # model prediction
-        self.x = self.x * self.gamma + f
+        # model prediction + perturbation
+        self.x = self.x * self.gamma + f + err
 
         # if forcing error is provided: error propagation (ASSUMES ADDITIVE ERROR!!)
         if self.Q is not None:
